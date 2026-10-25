@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123d2a">
+<meta name="description" content="Catálogo de Variedades Silvia. Consulta nuestros productos y haz tus pedidos por WhatsApp.">
+<title>Variedades Silvia | Catálogo</title>
+<style>
+:root{--verde:#123d2a;--verde2:#1d5b3e;--dorado:#d8b45a;--crema:#fffaf0;--texto:#24332a}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f5ee;color:var(--texto)}
+header{background:linear-gradient(135deg,var(--verde),#0a291c);color:white;text-align:center;padding:28px 16px 24px;border-bottom:4px solid var(--dorado)}
+.logo{width:76px;height:76px;border:2px solid var(--dorado);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:var(--dorado);font-size:30px;font-weight:bold}
+h1{margin:4px 0;color:var(--dorado);font-family:Georgia,serif;font-size:clamp(28px,6vw,42px);letter-spacing:.5px}
+header p{margin:8px 0 0;color:#f6f0df}
+.intro{max-width:900px;margin:20px auto 12px;padding:0 16px;text-align:center}
+.intro h2{color:var(--verde);margin-bottom:8px}
+.search-wrap{max-width:900px;margin:16px auto;padding:0 16px}
+#buscar{width:100%;padding:13px 15px;border:1px solid #d9d2bd;border-radius:12px;font-size:16px;background:white}
+.catalogo{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;max-width:1100px;margin:0 auto;padding:8px 16px 34px}
+.card{background:white;border:1px solid #e7dfcb;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px #173b2810;display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#e8e6dd}
+.info{padding:12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.info h3{font-size:15px;margin:0;color:var(--verde)}
+.precio{font-size:14px;color:#765b17;font-weight:bold}
+.btn{display:block;text-align:center;text-decoration:none;background:var(--verde);color:white;padding:10px 8px;border-radius:9px;font-size:14px;font-weight:bold;margin-top:auto}
+.btn:hover{background:var(--verde2)}
+footer{background:var(--verde);color:#fff;text-align:center;padding:24px 16px;border-top:4px solid var(--dorado)}
+footer strong{color:var(--dorado)}
+.wa-float{position:fixed;right:15px;bottom:15px;z-index:5;background:#168c4b;color:white;text-decoration:none;padding:13px 16px;border-radius:999px;font-weight:bold;box-shadow:0 3px 12px #0003}
+.oculto{display:none}
+@media(min-width:700px){.catalogo{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" aria-label="Logo provisional">VS</div>
+  <h1>Variedades Silvia</h1>
+  <p>Detalles que te encantan · Catálogo en línea</p>
+</header>
+<section class="intro">
+  <h2>Nuestros productos</h2>
+  <p>Explora el catálogo y escríbenos por WhatsApp para consultar precio, disponibilidad y detalles.</p>
+</section>
+<div class="search-wrap">
+  <input id="buscar" type="search" placeholder="Buscar un producto..." aria-label="Buscar productos">
+</div>
+<main class="catalogo" id="catalogo">
+<!-- Los productos se generan automáticamente -->
+</main>
+<footer>
+  <p><strong>Variedades Silvia</strong></p>
+  <p>Gracias por apoyar nuestro negocio.</p>
+  <p>Pedidos y consultas por WhatsApp: +505 7650 6636</p>
+</footer>
+<a class="wa-float" href="https://wa.me/50576506636?text=Hola%20Variedades%20Silvia%2C%20quiero%20consultar%20por%20sus%20productos." target="_blank" rel="noopener">WhatsApp</a>
+<script>
+const totalProductos = 33;
+const catalogo = document.getElementById('catalogo');
+const productos = [];
+for (let i = 1; i <= totalProductos; i++) {
+  productos.push({
+    nombre: `Reloj ${String(i).padStart(2,'0')}`,
+    imagen: `imagenes/reloj-${String(i).padStart(2,'0')}.jpg`
+  });
+}
+function dibujar(filtro='') {
+  catalogo.innerHTML = '';
+  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(filtro.toLowerCase()));
+  filtrados.forEach(p => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    const img = document.createElement('img');
+    img.src = p.imagen;
+    img.alt = p.nombre;
+    img.loading = 'lazy';
+    const info = document.createElement('div');
+    info.className = 'info';
+    const nombre = document.createElement('h3');
+    nombre.textContent = p.nombre;
+    const precio = document.createElement('div');
+    precio.className = 'precio';
+    precio.textContent = 'Consultar precio';
+    const btn = document.createElement('a');
+    btn.className = 'btn';
+    btn.href = 'https://wa.me/50576506636?text=' + encodeURIComponent(`Hola Variedades Silvia, quiero consultar por ${p.nombre}. ¿Está disponible y cuál es su precio?`);
+    btn.target = '_blank';
+    btn.rel = 'noopener';
+    btn.textContent = 'Consultar por WhatsApp';
+    info.append(nombre, precio, btn);
+    card.append(img, info);
+    catalogo.append(card);
+  });
+}
+document.getElementById('buscar').addEventListener('input', e => dibujar(e.target.value));
+dibujar();
+</script>
+</body>
+</html>
